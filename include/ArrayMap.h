@@ -19,13 +19,6 @@ public:
 
 	// =========== DEBUG =========== //
 	char* getDataPtr();
-	
-	std::vector<std::tuple<sf::Vector3i, char>>  CastRayCharArray(
-		char* map,
-		sf::Vector3i* map_dim,
-		sf::Vector2f* cam_dir,
-		sf::Vector3f* cam_pos
-	);
 
 private:
 

@@ -1,17 +1,15 @@
 #pragma once
-#include <bitset>
 #include <functional>
+#include <bitset>
+#include <ctime>
 #include <queue>
-#include <time.h>
-#include <SFML/System/Clock.hpp>
-#include <SFML/System/Vector3.hpp>
+#include "ArrayMap.h"
 #include "Logger.h"
-#include "map/ArrayMap.h"
-#include "map/Octree.h"
+#include "Octree.h"
 #include "util.hpp"
 
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 
 
@@ -43,19 +41,6 @@ public:
 	
 	// Gets a voxel at the 3D position in the octree
 	char getVoxel(sf::Vector3i pos);
-
-	// Return the position at which a generalized ray hits a voxel
-	sf::Vector3f LongRayIntersection(sf::Vector3f origin, sf::Vector3f magnitude);
-	
-	// Return the voxels that a box intersects / contains
-	std::vector<sf::Vector3i> BoxIntersection(sf::Vector3f origin, sf::Vector3f magnitude);
-	
-	// Return a normalized ray opposite of the intersected normals
-	sf::Vector3f ShortRayIntersection(sf::Vector3f origin, sf::Vector3f magnitude);
-	
-	sf::Image GenerateHeightBitmap(sf::Vector3i dimensions);
-
-	void ApplyHeightmap(sf::Image bitmap);
 
 	// Octree handles all basic octree operations
     Octree octree;
