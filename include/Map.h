@@ -33,7 +33,7 @@ private:
 	int counter = 0;
 	std::stringstream output_stream;
 	
-	sf::Vector3i dimensions;
+	Vector3i dimensions;
 	// =========================
 
 	double Sample(int x, int y, double *height_map);
@@ -45,7 +45,7 @@ private:
 
 // Might possibly use this struct for hashing XYZ chunk values into a dict for storage and loading
 struct XYZHasher {
-	std::size_t operator()(const sf::Vector3i& k) const {
+	std::size_t operator()(const Vector3i& k) const {
 		return ((std::hash<int>()(k.x)
 			^ (std::hash<int>()(k.y) << 1)) >> 1)
 			^ (std::hash<int>()(k.z) << 1);
