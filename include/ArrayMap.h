@@ -2,20 +2,20 @@
 #include <algorithm>
 #include <functional>
 #include <random>
-#include<SFML/Graphics.hpp>
 #include "util.hpp"
+#include "Vector3.hpp"
 
 class ArrayMap {
 	
 
 public:
 
-	ArrayMap(sf::Vector3i dimensions);
+	ArrayMap(Vector3i dimensions);
 	~ArrayMap();
 
-	char getVoxel(sf::Vector3i position);
-	void setVoxel(sf::Vector3i position, char value);
-	sf::Vector3i getDimensions();
+	char getVoxel(Vector3i position);
+	void setVoxel(Vector3i position, char value);
+	Vector3i getDimensions();
 
 	// =========== DEBUG =========== //
 	char* getDataPtr();
@@ -23,6 +23,6 @@ public:
 private:
 
 	char *voxel_data;
-	sf::Vector3i dimensions;
+	Vector3i dimensions;
 	
 };

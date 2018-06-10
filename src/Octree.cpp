@@ -9,13 +9,13 @@ Octree::Octree() {
 	attachment_buffer	= new uint64_t[buffer_size]();
 }
 
-void Octree::Generate(char* data, sf::Vector3i dimensions) {
+void Octree::Generate(char* data, Vector3i dimensions) {
 
 	oct_dimensions = dimensions.x;
 
 	// Launch the recursive generator at (0,0,0) as the first point
 	// and the octree dimension as the initial block size
-	std::tuple<uint64_t, uint64_t> root_node = GenerationRecursion(data, dimensions, sf::Vector3i(0, 0, 0), oct_dimensions/2);
+	std::tuple<uint64_t, uint64_t> root_node = GenerationRecursion(data, dimensions, Vector3i(0, 0, 0), oct_dimensions/2);
 
 	// ========= DEBUG ==============
 	PrettyPrintUINT64(std::get<0>(root_node), &output_stream);
@@ -41,12 +41,12 @@ void Octree::Generate(char* data, sf::Vector3i dimensions) {
 
 }
 
-OctState Octree::GetVoxel(sf::Vector3i position) {
+OctState Octree::GetVoxel(Vector3i position) {
 
 	// Struct that holds the state necessary to continue the traversal from the found voxel
 	OctState state;
 
-	state.oct_pos = sf::Vector3i(0,0,0);
+	state.oct_pos = Vector3i(0,0,0);
 
 	// push the root node to the parent stack
     uint64_t current_index = root_index;
@@ -167,20 +167,20 @@ void Octree::print_block(int block_pos) {
 
 }
 
-std::tuple<uint64_t, uint64_t> Octree::GenerationRecursion(char* data, sf::Vector3i dimensions, sf::Vector3i pos, unsigned int voxel_scale) {
+std::tuple<uint64_t, uint64_t> Octree::GenerationRecursion(char* data, Vector3i dimensions, Vector3i pos, unsigned int voxel_scale) {
 
 
 	// The 8 subvoxel coords starting from the 1th direction, the direction of the origin of the 3d grid
 	// XY, Z++, XY
-	std::vector<sf::Vector3i> v = {
-		sf::Vector3i(pos.x              , pos.y              , pos.z),
-		sf::Vector3i(pos.x + voxel_scale, pos.y              , pos.z),
-		sf::Vector3i(pos.x              , pos.y + voxel_scale, pos.z),
-		sf::Vector3i(pos.x + voxel_scale, pos.y + voxel_scale, pos.z),
-		sf::Vector3i(pos.x              , pos.y              , pos.z + voxel_scale),
-		sf::Vector3i(pos.x + voxel_scale, pos.y              , pos.z + voxel_scale),
-		sf::Vector3i(pos.x              , pos.y + voxel_scale, pos.z + voxel_scale),
-		sf::Vector3i(pos.x + voxel_scale, pos.y + voxel_scale, pos.z + voxel_scale)
+	std::vector<Vector3i> v = {
+		Vector3i(pos.x              , pos.y              , pos.z),
+		Vector3i(pos.x + voxel_scale, pos.y              , pos.z),
+		Vector3i(pos.x              , pos.y + voxel_scale, pos.z),
+		Vector3i(pos.x + voxel_scale, pos.y + voxel_scale, pos.z),
+		Vector3i(pos.x              , pos.y              , pos.z + voxel_scale),
+		Vector3i(pos.x + voxel_scale, pos.y              , pos.z + voxel_scale),
+		Vector3i(pos.x              , pos.y + voxel_scale, pos.z + voxel_scale),
+		Vector3i(pos.x + voxel_scale, pos.y + voxel_scale, pos.z + voxel_scale)
 	};
 
 	// A tuple holding the child descriptor that we're going to fill out and the
@@ -321,17 +321,17 @@ std::tuple<uint64_t, uint64_t> Octree::GenerationRecursion(char* data, sf::Vecto
 	return descriptor_and_position;
 }
 
-char Octree::get1DIndexedVoxel(char* data, sf::Vector3i dimensions, sf::Vector3i position) {	
+char Octree::get1DIndexedVoxel(char* data, Vector3i dimensions, Vector3i position) {	
 	return data[position.x + oct_dimensions * (position.y + oct_dimensions * position.z)];
 }
 
-bool Octree::Validate(char* data, sf::Vector3i dimensions){
+bool Octree::Validate(char* data, Vector3i dimensions){
 
 	for (int x = 0; x < dimensions.x; x++) {
 		for (int y = 0; y < dimensions.y; y++) {
 			for (int z = 0; z < dimensions.z; z++) {
 
-				sf::Vector3i pos(x, y, z);
+				Vector3i pos(x, y, z);
 
                 char arr_val = get1DIndexedVoxel(data, dimensions, pos);
                 char oct_val = GetVoxel(pos).found;

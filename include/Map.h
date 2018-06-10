@@ -11,25 +11,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-
-
-// MonolithicMap
-//		Octree
-//		Map
-
-// Player
-//		Camera
-//		Movement interface
-//		Subscription to joystick events?
-
-// Player needs to have some way to query the map
-//	Map could return collision result
-//		Could handle multiple collision types, aabb, ray
-//	player could query map and generate collision
-//		Wouldn't need to make map more complex
-
-
-
 class Map {
 public: 
 
@@ -37,10 +18,10 @@ public:
 	Map(uint32_t dimensions);
 
 	// Sets a voxel in the 3D char dataset
-	void setVoxel(sf::Vector3i position, int val);
+	void setVoxel(Vector3i position, int val);
 	
 	// Gets a voxel at the 3D position in the octree
-	char getVoxel(sf::Vector3i pos);
+	char getVoxel(Vector3i pos);
 
 	// Octree handles all basic octree operations
     Octree octree;

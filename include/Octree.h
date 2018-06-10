@@ -1,8 +1,8 @@
 #pragma once
 #include <tuple>
 #include <vector>
-#include <SFML/System/Vector3.hpp>
 #include "util.hpp"
+#include "Vector3.hpp"
 
 
 struct OctState {
@@ -16,7 +16,7 @@ struct OctState {
 
 	uint64_t current_descriptor;
 
-	sf::Vector3i oct_pos;
+	Vector3i oct_pos;
 
 	// ====== DEBUG =======
 	char found = 1;
@@ -32,7 +32,7 @@ public:
 	~Octree() {};
 
 	// Generate an octree from 3D indexed array of char data
-	void Generate(char* data, sf::Vector3i dimensions);
+	void Generate(char* data, Vector3i dimensions);
 
 	// TODO: Load the octree from a serialized or whatever file
 	void Load(std::string octree_file_name);
@@ -65,11 +65,11 @@ public:
 	
 	// With a position and the head of the stack. Traverse down the voxel hierarchy to find
 	// the IDX and stack position of the highest resolution (maybe set resolution?) oct
-	OctState GetVoxel(sf::Vector3i position);
+	OctState GetVoxel(Vector3i position);
 
 	void print_block(int block_pos);
 
-    bool Validate(char* data, sf::Vector3i dimensions); 
+    bool Validate(char* data, Vector3i dimensions);
 
 	unsigned int getDimensions();
 
@@ -93,23 +93,18 @@ public:
 	static const uint64_t contour_pointer_mask = 0xFFFFFF00000000;
 	static const uint64_t contour_mask = 0xFF00000000000000;
 
-	std::vector<std::tuple<sf::Vector3i, char>> CastRayOctree(
-		sf::Vector2f cam_dir,
-		sf::Vector3f cam_pos
-	);
-
 private:
 
 	unsigned int oct_dimensions = 1;
 
 	std::tuple<uint64_t, uint64_t> GenerationRecursion(
 		char* data,					// raw octree data
-		sf::Vector3i dimensions,	// dimensions of the raw data
-		sf::Vector3i pos,			// position of this generation node
+		Vector3i dimensions,	// dimensions of the raw data
+		Vector3i pos,			// position of this generation node
 		unsigned int voxel_scale	// the voxel scale of this node
 	); 
 	
-	char get1DIndexedVoxel(char* data, sf::Vector3i dimensions, sf::Vector3i position);
+	char get1DIndexedVoxel(char* data, Vector3i dimensions, Vector3i position);
 
 	std::vector<uint64_t> anchor_stack;
 	unsigned int octree_voxel_dimension = 32;

@@ -1,100 +1,11 @@
 #pragma once
 #include <algorithm>
-#include <bitset>
-
-#include <cmath>
-#include <fstream>
 #include <iostream>
+#include <fstream>
 #include <sstream>
+#include <bitset>
 #include <string>
-#include <tuple>
-#include <SFML/System/Vector3.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/Texture.hpp>
-
-#include "Vector4.hpp"
-
-const double PI = 3.141592653589793238463;
-const float  PI_F = 3.14159265358979f;
-
-inline sf::Vector3f SphereToCart(sf::Vector2f i) {
-
-	auto r = sf::Vector3f(
-		(1 * sin(i.y) * cos(i.x)),
-		(1 * sin(i.y) * sin(i.x)),
-		(1 * cos(i.y))
-	);
-	return r;
-};
-
-inline sf::Vector3f SphereToCart(sf::Vector3f i) {
-
-	auto r = sf::Vector3f(
-		(i.x * sin(i.z) * cos(i.y)),
-		(i.x * sin(i.z) * sin(i.y)),
-		(i.x * cos(i.z))
-	);
-	return r;
-};
-
-
-inline sf::Vector3f CartToSphere(sf::Vector3f in) {
-
-	auto r = sf::Vector3f(
-		sqrt(in.x * in.x + in.y * in.y + in.z * in.z),
-		atan(in.y / in.x),
-		atan(sqrt(in.x * in.x + in.y * in.y) / in.z)
-	);
-	return r;
-};
-
-inline sf::Vector2f CartToNormalizedSphere(sf::Vector3f in) {
-
-	auto r = sf::Vector2f(
-		atan2(sqrt(in.x * in.x + in.y * in.y), in.z), 
-		atan2(in.y, in.x)
-	);
-	return r;
-}
-
-inline sf::Vector3f FixOrigin(sf::Vector3f base, sf::Vector3f head) {
-	return head - base;
-}
-
-inline sf::Vector3f Normalize(sf::Vector3f in) {
-
-	float multiplier = sqrt(in.x * in.x + in.y * in.y + in.z * in.z);
-	auto r = sf::Vector3f(
-		in.x / multiplier,
-		in.y / multiplier,
-		in.z / multiplier
-	);
-	return r;
-}
-
-inline float DotProduct(sf::Vector3f a, sf::Vector3f b){
-	return a.x * b.x + a.y * b.y + a.z * b.z;
-}
-
-inline float Magnitude(sf::Vector3f in){
-	return sqrt(in.x * in.x + in.y * in.y + in.z * in.z);
-}
-
-inline float AngleBetweenVectors(sf::Vector3f a, sf::Vector3f b){
-	return acos(DotProduct(a, b) / (Magnitude(a) * Magnitude(b)));
-}
-
-inline float DistanceBetweenPoints(sf::Vector3f a, sf::Vector3f b) {
-	return sqrt(DotProduct(a, b));
-}
-
-inline float DegreesToRadians(float in) {
-	return static_cast<float>(in * PI / 180.0f);
-}
-
-inline float RadiansToDegrees(float in) {
-	return static_cast<float>(in * 180.0f / PI);
-}
+#include <cmath>
 
 inline std::string read_file(std::string file_name){
 
@@ -145,30 +56,11 @@ inline void DumpLog(std::stringstream* ss, std::string file_name) {
 #endif
 
 inline int count_bits(int32_t v) {
-	
 	return static_cast<int>(__builtin_popcount(v));
-
-	//v = v - ((v >> 1) & 0x55555555);                       // reuse input as temporary
-	//v = (v & 0x33333333) + ((v >> 2) & 0x33333333);        // temp
-	//return (((v + (v >> 4)) & 0xF0F0F0F) * 0x1010101) >> 24; // count
 }
 
 inline int count_bits(int64_t v) {
-
 	return static_cast<int>(__builtin_popcountll(v));
-	
-	//int32_t left = (int32_t)(v);
-	//int32_t right = (int32_t)(v >> 32);
-
-	//left = left - ((left >> 1) & 0x55555555);                    // reuse input as temporary
-	//left = (left & 0x33333333) + ((left >> 2) & 0x33333333);     // temp
-	//left = ((left + (left >> 4) & 0xF0F0F0F) * 0x1010101) >> 24; // count
-
-	//right = right - ((right >> 1) & 0x55555555);                    // reuse input as temporary
-	//right = (right & 0x33333333) + ((right >> 2) & 0x33333333);     // temp
-	//right = ((right + (right >> 4) & 0xF0F0F0F) * 0x1010101) >> 24; // count
-
-	//return left + right;
 }
 
 inline void SetBit(int position, char* c) {
@@ -228,9 +120,7 @@ inline bool IsLeaf(const uint64_t descriptor) {
 		// Only if valid and leaf are contiguous, then it's a leaf
 		if ((descriptor & leaf_mask) == leaf_mask)
 			return true;
-
 	}
-
 	return false;
 }
 
